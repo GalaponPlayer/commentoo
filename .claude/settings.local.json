@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(echo pnpm not found:*)",
+      "Bash(tail:*)",
+      "Bash(pnpm build:*)"
+    ]
+  }
+}

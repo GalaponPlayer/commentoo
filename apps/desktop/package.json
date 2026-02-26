@@ -1,0 +1,20 @@
+{
+  "name": "@commentoo/desktop",
+  "version": "0.0.0",
+  "private": true,
+  "main": "dist/main.js",
+  "scripts": {
+    "dev": "tsc --watch",
+    "start": "tsc && electron dist/main.js",
+    "build": "tsc",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint src/"
+  },
+  "dependencies": {
+    "electron": "^35.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.8",
+    "typescript": "^5.8.2"
+  }
+}

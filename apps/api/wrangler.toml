@@ -1,0 +1,6 @@
+name = "commentoo-api"
+main = "src/index.ts"
+compatibility_date = "2025-02-24"
+
+[dev]
+port = 8787
