@@ -77,6 +77,68 @@ pnpm --filter @commentoo/db migrate  # Run migrations
 - Colocated test files: `foo.ts` → `foo.test.ts`
 - Playwright for E2E (critical flows only)
 
+## Design System
+
+Source of truth: the **Commentoo Design System** on claude.ai/design
+(`https://api.anthropic.com/v1/design/h/DA_E_Q2aeyEt9O4cW8cZdA`). Tokens are
+synced into `packages/ui/src/styles.css` (Tailwind v4 `@theme` + CSS custom
+properties). Visual direction: **"Faithful" Sci-Fi** — a flat instrument-panel
+aesthetic. See `COMMENTOO_DEVELOPMENT_PLAN.md` → Design System for the full rationale.
+
+### Non-negotiables
+- **Never hardcode hex/px** for color, type, spacing, radius, shadow, or motion.
+  Always reference tokens (`var(--primary)`, `--space-4`, `--text-base`,
+  `--radius`, `--dur-fast`, …). Raw values are a review blocker.
+- **Token naming follows shadcn/ui.** `--ai` and `--cheer` (+ their `-subtle`
+  tints) are the ONLY additions — do not invent new role tokens.
+
+### Color — 4 roles only
+- `--primary` (Spotlight / ink) — buttons, actions, brand. Things you tap.
+- `--ai` (Companion / petrol teal) — **reserved exclusively for AI.** Never on
+  human-authored UI or comments (Design Principle 4).
+- `--cheer` (coral) — reactions, bursts, LIVE pill, comment surge. The one hot lamp.
+- Backstage neutrals (sage/khaki ramp) — backgrounds, text, borders.
+- Semantics: `--destructive` (brick), `--success` (olive). Coral ≠ destructive.
+
+### Surfaces & theming
+- **Participant app** (`apps/user`, mobile PWA): **dark-first** (`.dark`).
+- **Admin dashboard** (`apps/admin`, desktop web): **light** (`:root`).
+- **Desktop overlay** (`apps/desktop`, Electron): **transparent** — slides are the background.
+
+### Typography
+- `--font-sans` leads with embedded **Martian Mono** (Latin/numerals/labels);
+  **Noto Sans JP** carries Japanese (Hiragino fallback). Express hierarchy with
+  size + weight + color, never by switching fonts.
+- 5-step scale: `--text-xs` 12 / `--text-sm` 14 / `--text-base` 16 / `--text-lg`
+  20 / `--text-xl` 28. Weights 400/500/600/700. Numeric readouts use `tabular-nums`.
+
+### Spacing, radius, shadow
+- Spacing on a **4px base** (`--space-1` … `--space-16`). Tap targets **44px min,
+  52px comfortable** (participant app).
+- **Sharp corners by default** — `--radius*` are `0`. `--radius-pill` (999px) is
+  ONLY for true circles (dots, avatars, the overlay arrow button).
+- **Flat design:** no gradients (except the `--hatch` data-fill), no glassmorphism,
+  no backdrop-blur. 1px `--border`/`--rule` does most separation; shadows minimal
+  (`--shadow-sm`/`-md`) on genuinely floating surfaces only.
+
+### Motion
+- Snappy UI feedback 100–200ms (`--dur-fast`/`-base`/`-slow`, `--ease-out`).
+- Honor `prefers-reduced-motion` (durations collapse to 0).
+- **Freshness rule:** a late animation or stale quip is skipped, never shown delayed.
+
+### Icons & emoji
+- **Lucide** (outline, 1.75–2px stroke; 24px default / 20px dense / 18px inline).
+  Icons inherit `currentColor`; use `--ai` only on AI-related controls.
+- Emoji are functional and limited to the reaction set **👏 🤣 ❓ 💡** and the AI
+  badge **🤖**. No other emoji in UI chrome or copy.
+
+### Components & content
+- Build UI from the shared library in `packages/ui` (Button, Badge, Input, Switch,
+  Card, CommentItem, NicknameChip, AIBadge, ReactionButton, LivePill, PollOption) —
+  map every screen to these shadcn-based components.
+- Japanese-first copy; warm, brief, MC-like voice. AI comments always carry the
+  🤖 badge + `--ai` color.
+
 ## Environment Variables
 
 - Local dev: `.env` files (gitignored)

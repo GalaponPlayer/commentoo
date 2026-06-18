@@ -1,24 +1,342 @@
-@import "tailwindcss";
+/* ============================================================
+   Commentoo — Design System entry (Tailwind CSS v4)
 
-@theme {
-  --color-background: oklch(1 0 0);
-  --color-foreground: oklch(0.145 0 0);
-  --color-card: oklch(1 0 0);
-  --color-card-foreground: oklch(0.145 0 0);
-  --color-popover: oklch(1 0 0);
-  --color-popover-foreground: oklch(0.145 0 0);
-  --color-primary: oklch(0.205 0.03 265);
-  --color-primary-foreground: oklch(0.985 0 0);
-  --color-secondary: oklch(0.965 0 0);
-  --color-secondary-foreground: oklch(0.205 0.03 265);
-  --color-muted: oklch(0.965 0 0);
-  --color-muted-foreground: oklch(0.556 0.02 265);
-  --color-accent: oklch(0.965 0 0);
-  --color-accent-foreground: oklch(0.205 0.03 265);
-  --color-destructive: oklch(0.577 0.245 27.325);
-  --color-destructive-foreground: oklch(0.985 0 0);
-  --color-border: oklch(0.922 0 0);
-  --color-input: oklch(0.922 0 0);
-  --color-ring: oklch(0.708 0.165 254.624);
-  --radius: 0.625rem;
+   Source of truth: the "Commentoo Design System" on claude.ai/design.
+   Direction: "Faithful" Sci-Fi — flat instrument panel. Muted sage backstage,
+   near-black ink for actions, one hot coral for energy, teal reserved for AI.
+
+   Token VALUES below are copied verbatim from the design system's
+   tokens/{colors,typography,spacing,fonts}.css. The wrapper (@custom-variant,
+   @theme inline) maps them onto Tailwind utilities + shadcn dark mode.
+
+     Spotlight (--primary) = ink    — things you tap
+     Companion (--ai)      = teal   — AI ONLY, never human
+     Cheer     (--cheer)   = coral  — reactions, LIVE, surge (the hot lamp)
+     Backstage (neutrals)  = sage/khaki ramp
+   ============================================================ */
+
+@import 'tailwindcss';
+
+/* Runtime font loader (subsets JP automatically) — must stay near the top. */
+@import url('https://fonts.googleapis.com/css2?family=Martian+Mono:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+/* --- Martian Mono — embedded brand face (Latin / numerals / labels) --- */
+@font-face {
+  font-family: 'Martian Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/martian-mono@latest/latin-400-normal.woff2')
+    format('woff2');
+}
+@font-face {
+  font-family: 'Martian Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/martian-mono@latest/latin-500-normal.woff2')
+    format('woff2');
+}
+@font-face {
+  font-family: 'Martian Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/martian-mono@latest/latin-600-normal.woff2')
+    format('woff2');
+}
+@font-face {
+  font-family: 'Martian Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/martian-mono@latest/latin-700-normal.woff2')
+    format('woff2');
+}
+@font-face {
+  font-family: 'Martian Mono';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/martian-mono@latest/latin-800-normal.woff2')
+    format('woff2');
+}
+
+/* shadcn dark-mode variant — `.dark` ancestor toggles the olive theme. */
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================================
+   LIGHT theme (sage) — admin dashboard default
+   ============================================================ */
+:root {
+  /* --- Brand base (raw role values) --- */
+  --spotlight: #1d1e18; /* primary — ink, things you tap            */
+  --companion: #1f7a6e; /* ai      — petrol teal, reserved for AI   */
+  --cheer-base: #df6038; /* cheer   — coral, reactions / LIVE / surge */
+
+  /* --- Neutral scale (Backstage — warm sage / khaki) --- */
+  --gray-50: #f3f2e9;
+  --gray-100: #e9e7d6;
+  --gray-200: #dcd9c2;
+  --gray-300: #c9c6a9; /* the signature sage surface */
+  --gray-400: #b3b094;
+  --gray-500: #8f8d72;
+  --gray-600: #6d6e57;
+  --gray-700: #4b4c3b;
+  --gray-800: #303126;
+  --gray-900: #20211a;
+  --gray-950: #16170f; /* deep olive-black */
+
+  /* --- shadcn semantic aliases (LIGHT — sage) --- */
+  --background: #c6c3a6;
+  --foreground: #1d1e18;
+
+  --card: #cfccb2;
+  --card-foreground: #1d1e18;
+
+  --popover: #d8d5bd;
+  --popover-foreground: #1d1e18;
+
+  --primary: #1d1e18; /* ink */
+  --primary-foreground: #ece9d8;
+
+  --secondary: #bdba9d;
+  --secondary-foreground: #1d1e18;
+
+  --muted: #bdba9d;
+  --muted-foreground: #6d6e57;
+
+  --accent: #b3b094; /* sage hover surface */
+  --accent-foreground: #1d1e18;
+
+  --destructive: #a23a26; /* deep brick (distinct from coral cheer) */
+  --destructive-foreground: #f3f2e9;
+
+  --success: #5b6b3a; /* olive green */
+  --success-foreground: #f3f2e9;
+
+  /* Companion (AI) — reserved exclusively for AI */
+  --ai: #1f7a6e; /* petrol teal */
+  --ai-foreground: #f0f7f4;
+  --ai-subtle: #c2d2c8; /* teal-tinted sage surface */
+  --ai-subtle-foreground: #15463f;
+
+  /* Cheer — reactions, bursts, LIVE, surge (the hot lamp) */
+  --cheer: #df6038;
+  --cheer-foreground: #2c1206;
+  --cheer-subtle: #e3b79e; /* coral-tinted sage surface */
+  --cheer-subtle-foreground: #7a2c10;
+
+  --border: #a9a78c;
+  --input: #a9a78c;
+  --ring: #1d1e18;
+
+  /* Overlay comment ink (desktop overlay surface) */
+  --overlay-user-ink: #f3f2e9;
+  --overlay-ai-ink: #46c6b3;
+  --overlay-shadow: rgba(0, 0, 0, 0.85);
+
+  /* --- Typography --- */
+  --font-sans:
+    'Martian Mono', 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', Meiryo,
+    ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Martian Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  --font-display: 'Martian Mono', ui-monospace, monospace;
+
+  --text-xs: 12px; /* meta, timestamps, captions */
+  --text-sm: 14px; /* secondary UI, labels */
+  --text-base: 16px; /* body, comments, inputs */
+  --text-lg: 20px; /* card titles, section heads */
+  --text-xl: 28px; /* page titles, big stats, join code */
+
+  --leading-tight: 1.2;
+  --leading-snug: 1.35;
+  --leading-normal: 1.5;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  --tracking-tight: -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em; /* join code, LIVE label */
+
+  /* Overlay comment type — bold fixed, shadow for legibility on any bg */
+  --overlay-comment-size: 40px;
+  --overlay-comment-weight: 700;
+  --overlay-comment-shadow:
+    0 2px 6px var(--overlay-shadow), 0 0 2px var(--overlay-shadow),
+    -1px -1px 0 var(--overlay-shadow), 1px -1px 0 var(--overlay-shadow),
+    -1px 1px 0 var(--overlay-shadow), 1px 1px 0 var(--overlay-shadow);
+
+  /* --- Spacing (4px base) --- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* --- Radius — SHARP. Only true circles use --radius-pill. --- */
+  --radius: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-pill: 999px; /* dots, the overlay arrow button, avatars only */
+
+  /* --- Tap targets — "join in 5 seconds" demands generous targets --- */
+  --tap-min: 44px;
+  --tap-comfortable: 52px;
+
+  /* --- Shadows — minimal, flat. Raised surfaces only. --- */
+  --shadow-xs: 0 1px 2px rgba(21, 22, 28, 0.06);
+  --shadow-sm: 0 1px 3px rgba(21, 22, 28, 0.08), 0 1px 2px rgba(21, 22, 28, 0.04);
+  --shadow-md: 0 4px 12px rgba(21, 22, 28, 0.1);
+  --shadow-pop: 0 8px 28px rgba(21, 22, 28, 0.16);
+
+  /* --- Motion — snappy UI feedback --- */
+  --dur-fast: 100ms;
+  --dur-base: 150ms;
+  --dur-slow: 200ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Signature timings */
+  --overlay-scroll-dur: 8s;
+  --burst-dur: 1200ms;
+
+  /* --- Motif — vertical hatch data-fill + 1px rule --- */
+  --hatch-weight: 1.5px;
+  --hatch-gap: 7px;
+  --hatch: repeating-linear-gradient(
+    90deg,
+    currentColor 0 var(--hatch-weight),
+    transparent var(--hatch-weight) var(--hatch-gap)
+  );
+  --hatch-h: repeating-linear-gradient(
+    0deg,
+    currentColor 0 var(--hatch-weight),
+    transparent var(--hatch-weight) var(--hatch-gap)
+  );
+  --rule: 1px solid var(--border);
+}
+
+/* ============================================================
+   DARK theme (olive) — participant app (dark venues) & overlay control UI
+   ============================================================ */
+.dark,
+[data-theme='dark'] {
+  --background: #16170f;
+  --foreground: #ece9d8;
+
+  --card: #20211a;
+  --card-foreground: #ece9d8;
+
+  --popover: #262719;
+  --popover-foreground: #ece9d8;
+
+  --primary: #ece9d8; /* cream ink, inverted */
+  --primary-foreground: #16170f;
+
+  --secondary: #2b2c20;
+  --secondary-foreground: #ece9d8;
+
+  --muted: #2b2c20;
+  --muted-foreground: #9a9a80;
+
+  --accent: #343526;
+  --accent-foreground: #d8d5bd;
+
+  --destructive: #d4503a;
+  --destructive-foreground: #f6ece6;
+
+  --success: #8aa352;
+  --success-foreground: #16170f;
+
+  --ai: #3fb9a8; /* brighter teal on olive */
+  --ai-foreground: #06302b;
+  --ai-subtle: #123831;
+  --ai-subtle-foreground: #8fe0d3;
+
+  --cheer: #e8693f; /* lifted coral on dark */
+  --cheer-foreground: #2c1206;
+  --cheer-subtle: #3a2210;
+  --cheer-subtle-foreground: #f0a880;
+
+  --border: #34352a;
+  --input: #34352a;
+  --ring: #ece9d8;
+}
+
+/* ============================================================
+   Tailwind theme mapping — exposes tokens as utilities.
+   `inline` keeps the runtime CSS vars above as the single definition,
+   so light/dark swap automatically (e.g. `bg-primary`, `text-ai`).
+   ============================================================ */
+@theme inline {
+  /* Colors */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-ai: var(--ai);
+  --color-ai-foreground: var(--ai-foreground);
+  --color-ai-subtle: var(--ai-subtle);
+  --color-ai-subtle-foreground: var(--ai-subtle-foreground);
+  --color-cheer: var(--cheer);
+  --color-cheer-foreground: var(--cheer-foreground);
+  --color-cheer-subtle: var(--cheer-subtle);
+  --color-cheer-subtle-foreground: var(--cheer-subtle-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Fonts */
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-display: var(--font-display);
+
+  /* Type scale (12 / 14 / 16 / 20 / 28) */
+  --text-xs: var(--text-xs);
+  --text-sm: var(--text-sm);
+  --text-base: var(--text-base);
+  --text-lg: var(--text-lg);
+  --text-xl: var(--text-xl);
+
+  /* Radius — sharp */
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+}
+
+/* Freshness/accessibility: a late animation is skipped, never shown delayed. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-base: 0ms;
+    --dur-slow: 0ms;
+    --burst-dur: 0ms;
+  }
 }

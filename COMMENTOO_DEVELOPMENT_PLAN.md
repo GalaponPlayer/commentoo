@@ -101,6 +101,89 @@ commentoo/
 
 ---
 
+## Design System
+
+A complete design system exists and is the **source of truth for all UI**: the
+**Commentoo Design System** on claude.ai/design
+(`https://api.anthropic.com/v1/design/h/DA_E_Q2aeyEt9O4cW8cZdA`). It was
+reverse-engineered from this plan + the Phase-0 scaffold and ships design tokens,
+foundation guidelines, shadcn-based components, and full UI-kit screens for all
+three surfaces. Tokens are consumed via `packages/ui/src/styles.css` (Tailwind
+CSS v4 `@theme` + CSS custom properties) and kept in sync via the claude.ai
+`/design-sync` workflow.
+
+**Visual direction — "Faithful" Sci-Fi (2026):** a flat, instrument-panel
+aesthetic. Muted **sage** backstage, near-black **ink** for actions, a single hot
+**coral** for energy, **teal** reserved for the AI. The brand face is the embedded
+mono **Martian Mono**; corners are **sharp**; vertical **hatch** fills and **+**
+registration marks are signature motifs. No gradients (except the `--hatch`
+data-fill), no glassmorphism, minimal shadow.
+
+### Design Principles
+
+1. **The presenter is the star.** UI recedes; the overlay aims for maximum presence without interfering.
+2. **Join in 5 seconds.** Big tap targets (44px min), no onboarding, instant feedback, anonymous-by-default.
+3. **Energy lives in motion.** Flowing comments and emoji bursts carry the brand — not decoration.
+4. **The AI is a distinct character.** AI comments are identifiable at a glance (teal + 🤖 badge), never mistaken for a human.
+
+### Three Surfaces
+
+| Surface | App | Theme | Character |
+|---|---|---|---|
+| Participant | `apps/user` (mobile PWA) | **dark-first** (`.dark`) | One-handed portrait. QR → first comment < 5s. Feed, reaction bar, poll popups. |
+| Admin | `apps/admin` (desktop web) | **light** (`:root`) | Calm business tool. Session list/detail, moderation, polls, real-time stats. |
+| Overlay | `apps/desktop` (Electron) | **transparent** | Comments flow right-to-left over the slides. White/cyan bold text with outline + shadow. |
+
+### Color — 4 Roles (shadcn/ui naming)
+
+| Role | Token | Light (sage) | Dark (olive) | Usage |
+|---|---|---|---|---|
+| Spotlight | `--primary` | `#1D1E18` | `#ECE9D8` | Ink. Buttons, actions, brand — things you **tap**. |
+| Companion | `--ai` | `#1F7A6E` | `#3FB9A8` | Petrol teal. **AI only**, never human. |
+| Cheer | `--cheer` | `#DF6038` | `#E8693F` | Coral. Reactions, bursts, LIVE, comment surge — the one hot lamp. |
+| Backstage | neutrals | bg `#C6C3A6` | bg `#16170F` | Sage / khaki ramp — backgrounds, text, borders. |
+
+Plus standard semantics: `--destructive` (brick, deliberately distinct from coral)
+and `--success` (olive). `--ai` and `--cheer` (+ their `-subtle` tints) are the
+only additions to the shadcn token set.
+
+### Typography
+
+- **Martian Mono** (embedded, Latin / numerals / labels) leads `--font-sans`;
+  **Noto Sans JP** carries Japanese (Hiragino fallback). The per-glyph split is
+  intentional. Hierarchy comes from size + weight + color — never font switching.
+- 5-step scale: 12 / 14 / 16 / 20 / 28px (`--text-xs` … `--text-xl`). Body 16,
+  titles 20, big moments (join code, headline stats) 28. Weights 400/500/600/700.
+- Numeric readouts use `tabular-nums`. Overlay comments are bold-fixed (40px) with
+  a multi-layer text-shadow + 1px outline for legibility on any slide.
+
+### Spacing · Radius · Motion
+
+- **4px spacing base** (`--space-1` … `--space-16`). Tap targets 44px min /
+  52px comfortable in the participant app.
+- **Sharp corners** — all `--radius*` are `0`; `--radius-pill` (999px) is reserved
+  for genuine circles only (avatar/identity dots, the live pulse, the overlay arrow button).
+- Motion is snappy: 100–200ms UI feedback (`--ease-out`). Signature motions are the
+  ~8s right-to-left comment scroll and the ~1.2s reaction burst (float-up + pop,
+  `--ease-bounce`). `prefers-reduced-motion` collapses UI durations to 0.
+  **Freshness rule:** a late animation or stale quip is skipped, never shown delayed.
+
+### Component Library (`packages/ui`)
+
+shadcn-based, mapped 1:1 to the design system:
+- **core** — `Button`, `Badge`, `Input`, `Switch`, `Card` (+ sub-parts)
+- **comments** — `CommentItem`, `NicknameChip`, `AIBadge`
+- **engagement** — `ReactionButton`, `LivePill`, `PollOption`
+
+Icons: **Lucide** (outline, 1.75–2px stroke, 24px default / 20px dense / 18px
+inline). Sanctioned emoji are functional and limited to the reaction set
+👏 🤣 ❓ 💡 and the AI badge 🤖 — no other emoji in UI chrome or copy.
+
+> Build every screen from these tokens and components. See `CLAUDE.md` →
+> Design System for the enforcement rules developers must follow.
+
+---
+
 ## Phasing Strategy
 
 ### Design Principles
@@ -126,7 +209,9 @@ Monorepo skeleton is set up. All apps build and deploy in empty state.
 
 2. **packages/ scaffolding**
    - `packages/shared` — empty Zod schema exports
-   - `packages/ui` — shadcn/ui init (Button, Card, basic components)
+   - `packages/ui` — shadcn/ui init; adopt the Design System tokens into
+     `src/styles.css` (Tailwind v4 `@theme`, light `:root` + dark `.dark`) and
+     port the core components (Button, Badge, Input, Switch, Card)
    - `packages/db` — Drizzle + Neon connection setup, empty schema
    - `packages/ai` — Vercel AI SDK setup, empty router
    - `packages/realtime` — WebSocket message type definitions
@@ -152,6 +237,8 @@ Monorepo skeleton is set up. All apps build and deploy in empty state.
 - `pnpm build` succeeds for all
 - CF Pages/Workers deployed and accessible in browser
 - Neon connection verified
+- Design System tokens load in `packages/ui`; a sample screen renders in the
+  correct theme per surface (participant dark / admin light)
 
 ---
 

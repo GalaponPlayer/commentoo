@@ -1,2 +1,5 @@
-@import "tailwindcss";
-@import "@commentoo/ui/styles.css";
+@import 'tailwindcss';
+@import '@commentoo/ui/styles.css';
+
+/* Scan the shared UI library so its utility classes (bg-ai, bg-cheer, …) are generated. */
+@source "../../../../packages/ui/src/**/*.{ts,tsx}";
