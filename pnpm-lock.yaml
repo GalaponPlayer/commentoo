@@ -157,6 +157,10 @@ importers:
         version: 4.1.8(@opentelemetry/api@1.9.0)(@types/node@22.19.11)(vite@8.0.16(@types/node@22.19.11)(esbuild@0.19.12)(jiti@2.6.1))
 
   packages/realtime:
+    dependencies:
+      '@commentoo/shared':
+        specifier: workspace:*
+        version: link:../shared
     devDependencies:
       typescript:
         specifier: ^5.8.2

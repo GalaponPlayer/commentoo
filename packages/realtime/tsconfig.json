@@ -2,7 +2,10 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    // The browser client (client.ts) uses WebSocket/fetch. DOM types are scoped
+    // to this package; consumers of the protocol-only entry never load them.
+    "lib": ["ES2022", "DOM"]
   },
   "include": ["src"]
 }

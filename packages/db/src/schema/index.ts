@@ -1,2 +1,2 @@
-// Placeholder — tables will be added in Phase 1
-export {};
+export * from './sessions';
+export * from './comments';
