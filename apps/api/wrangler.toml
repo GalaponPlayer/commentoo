@@ -4,3 +4,21 @@ compatibility_date = "2025-02-24"
 
 [dev]
 port = 8787
+
+[vars]
+USER_APP_ORIGIN = "http://localhost:3000"
+PARTICIPANT_TOKEN_TTL_SECONDS = "21600"
+COMMENT_RATE_LIMIT_SECONDS = "3"
+COMMENT_FLUSH_DELAY_MS = "1000"
+
+# DATABASE_URL and PARTICIPANT_TOKEN_SECRET are secrets:
+#   local:  apps/api/.dev.vars
+#   prod:   wrangler secret put DATABASE_URL / PARTICIPANT_TOKEN_SECRET
+
+[[durable_objects.bindings]]
+name = "SESSION_ROOM"
+class_name = "SessionRoom"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["SessionRoom"]
