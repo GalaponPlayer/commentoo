@@ -66,9 +66,24 @@ importers:
 
   apps/api:
     dependencies:
+      '@commentoo/db':
+        specifier: workspace:*
+        version: link:../../packages/db
+      '@commentoo/realtime':
+        specifier: workspace:*
+        version: link:../../packages/realtime
+      '@commentoo/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
+      drizzle-orm:
+        specifier: ^0.39.3
+        version: 0.39.3(@cloudflare/workers-types@4.20260304.0)(@neondatabase/serverless@0.10.4)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)
       hono:
         specifier: ^4.7.5
         version: 4.12.2
+      zod:
+        specifier: ^3.24.2
+        version: 3.25.76
     devDependencies:
       '@cloudflare/workers-types':
         specifier: ^4.20250224.0
@@ -76,6 +91,9 @@ importers:
       typescript:
         specifier: ^5.8.2
         version: 5.9.3
+      vitest:
+        specifier: ^4.1.8
+        version: 4.1.8(@opentelemetry/api@1.9.0)(@types/node@22.19.11)(vite@8.0.16(@types/node@22.19.11)(esbuild@0.27.3)(jiti@2.6.1))
       wrangler:
         specifier: ^4.100.0
         version: 4.100.0(@cloudflare/workers-types@4.20260304.0)
