@@ -13,4 +13,10 @@ export {
   CardContent,
   CardFooter,
 } from './components/card.js';
+export { CommentItem } from './components/comment-item.js';
+export type { CommentItemProps } from './components/comment-item.js';
+export { NicknameChip } from './components/nickname-chip.js';
+export type { NicknameChipProps } from './components/nickname-chip.js';
+export { AIBadge } from './components/ai-badge.js';
+export type { AIBadgeProps } from './components/ai-badge.js';
 export { cn } from './lib/utils.js';

@@ -7,9 +7,10 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  // Participant app is dark-first (Commentoo Design System).
   return (
-    <html lang="ja">
-      <body>{children}</body>
+    <html lang="ja" className="dark">
+      <body className="bg-background text-foreground">{children}</body>
     </html>
   );
 }
